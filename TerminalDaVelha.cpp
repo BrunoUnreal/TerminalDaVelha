@@ -5,7 +5,7 @@
 class ABoard // Cria Uma classe chamada de ABoard responsavel pelo tabuleiro
 {
 public: //Seçao publica da Classe
-	ABoard()
+	ABoard() //Funcao contrutura da classe
 	{
 		for (int RowIndex = 0; RowIndex < 3; RowIndex++) // For que ira roda tres vezes pra A linha
 		{
@@ -120,7 +120,7 @@ private: //Secao Privada da classe
 			int Input; // Criar variavel inteiro pra armezenar o input do Player
 			std::cin >> Input; //Valor digitado ira para o Input
 
-			if (1 >= Input && Input <= 9) // Se o valor de Input for >= 1 E Input for <= 9
+			if (1 <= Input && Input <= 9) // Se o valor de Input for >= 1 E Input for <= 9
 			{
 				return Input; //Retorna o valor de Input
 			}
@@ -166,171 +166,171 @@ class AGame //Criar Classe do AGame
 {
 public: //Secao Publica da Classe
 
-	enum class GameResult
+	enum class GameResult //Cria um enum(lista de valores) de classes Chamado GameResult
 	{
-		NotOver,
-		Player1,
-		Player2,
-		Draw
+		NotOver, //Valor pra Enquanto nao tive acabado o jogo
+		Player1, //Valor pra quando o Player1 Ganhar
+		Player2, //Valor pra quando o Player2 Ganhar
+		Draw //Valor pra quando enpata
 	};
 
-	AGame()
+	AGame() //Funcao Contrutura da classe
 	{
-		Player1 = new AHumanPlayer;
-		Player2 = new AAIPlayer;
+		Player1 = new AHumanPlayer; //O ponteiro Player1 receber uma nova classe AHumanPlayer
+		Player2 = new AAIPlayer; //O ponteiro Player2 receber uma nova classe AIAPlayer
 	}
 
-	~AGame()
+	~AGame() //Funcao destrutura da classe
 	{
-		delete Player1;
-		delete Player2;
+		delete Player1; //Deletar da memoria o Player1
+		delete Player2; //Deletae da memora o Player2
 	}
 	
-	void SetGameOver()
+	void SetGameOver() //Funcao SetGameOver que nao retorna nada
 	{
 
-		bIsGameOver = true;
-		if (bIsPlayer1Turn)
+		bIsGameOver = true; // A variavel bIsGameOver Receber o valor de verdadeiro
+		if (bIsPlayer1Turn) //SE a variavel bISPlayer1Turn(vez do jogador1) for verdadeira
 		{
-			Result = GameResult::Player1;
+			Result = GameResult::Player1; // Result Receber GameResult::Player1;
 		}
-		else
+		else //SENAO
 		{
-			Result = GameResult::Player2;
+			Result = GameResult::Player2; // Result receber GameResult::Player2;
 		}
 	}
 
-	bool IsALine(char A, char B, char C)
+	bool IsALine(char A, char B, char C) //Funcao IsALine que retorna um bool
 	{
-		return A != ' ' && A == B && B == C;
+		return A != ' ' && A == B && B == C; //Se todos as casas foram iguais e diferente de vazia retorna verdadeira
 	}
 
-	void CheckGameOver()
+	void CheckGameOver() //Funcao ChackGameOver que nao retorna nada
 	{
-		if (Tabuleiro.IsEmpty())
+		if (Tabuleiro.IsEmpty()) //SE o Tabuleiro.estiveVaziu
 		{
-			return;
+			return; //Retorna e fecha
 		}
 
-		for (int RowIndex = 0; RowIndex < 3; ++RowIndex)
+		for (int RowIndex = 0; RowIndex < 3; ++RowIndex) //For que roda tres vezes pra Linha
 		{
-			char Col0 = Tabuleiro.GetValue(RowIndex, 0);
-			char Col1 = Tabuleiro.GetValue(RowIndex, 1);
-			char Col2 = Tabuleiro.GetValue(RowIndex, 2);
+			char Col0 = Tabuleiro.GetValue(RowIndex, 0); //Variavel char que receber A casa do Tabuleiro.PegarValor(Linha, 0)
+			char Col1 = Tabuleiro.GetValue(RowIndex, 1); //Variavel char que receber A casa do Tabuleiro.PegarValor(Linha, 1)
+			char Col2 = Tabuleiro.GetValue(RowIndex, 2); //Variavel char que receber A casa do Tabuleiro.PegarValor(Linha, 2)
 
-			if (IsALine(Col0, Col1, Col2))
+			if (IsALine(Col0, Col1, Col2)) //SE as casas forem iguias
 			{
-				SetGameOver();
-				return;
+				SetGameOver(); //Chama a funcao pra GameOver
+				return; //Retorna e sair
 			}
 
 		}
 
-		for (int Colum = 0; Colum < 3; ++Colum)
+		for (int Colum = 0; Colum < 3; ++Colum) //For que roda tres vezes pra Coluna
 		{
-			char Row0 = Tabuleiro.GetValue(0, Colum);
-			char Row1 = Tabuleiro.GetValue(1, Colum);
-			char Row2 = Tabuleiro.GetValue(2, Colum);
+			char Row0 = Tabuleiro.GetValue(0, Colum); //Variavel char que receber A casa do Tabuleiro.PegarValor(0, Coluna)
+			char Row1 = Tabuleiro.GetValue(1, Colum); //Variavel char que receber A casa do Tabuleiro.PegarValor(1, Coluna)
+			char Row2 = Tabuleiro.GetValue(2, Colum); //Variavel char que receber A casa do Tabuleiro.PegarValor(2, Coluna)
 
-			if (IsALine(Row0, Row1, Row2))
+			if (IsALine(Row0, Row1, Row2)) //SE as casas forem iguias
 			{
-				SetGameOver();
-				return;
+				SetGameOver(); //Chama a funcao pra GameOver
+				return; //Retorna e sair
 			}
 		}
 
-		char Diag0 = Tabuleiro.GetValue(0, 0);
-		char Diag1 = Tabuleiro.GetValue(1, 1);
-		char Diag2 = Tabuleiro.GetValue(2, 2);
+		char Diag0 = Tabuleiro.GetValue(0, 0); //Variavel char que receber A casa do Tabuleiro.PegarValor(0, 0)
+		char Diag1 = Tabuleiro.GetValue(1, 1);  //Variavel char que receber A casa do Tabuleiro.PegarValor(1, 1)
+		char Diag2 = Tabuleiro.GetValue(2, 2); //Variavel char que receber A casa do Tabuleiro.PegarValor(2, 2)
 
-		if (IsALine(Diag0, Diag1, Diag2))
+		if (IsALine(Diag0, Diag1, Diag2)) //SE as casas forem iguias
 		{
-			SetGameOver();
-			return;
+			SetGameOver(); //Chama a funcao pra GameOver
+			return; //Retorna e sair
 
 		}
 		
-		Diag0 = Tabuleiro.GetValue(0, 2);
-		Diag2 = Tabuleiro.GetValue(2, 0);
+		Diag0 = Tabuleiro.GetValue(0, 2); //Variavel char que receber A casa do Tabuleiro.PegarValor(0, 2)
+		Diag2 = Tabuleiro.GetValue(2, 0); //Variavel char que receber A casa do Tabuleiro.PegarValor(2, 0)
 
-		if (IsALine(Diag0, Diag1, Diag2))
+		if (IsALine(Diag0, Diag1, Diag2)) //SE as casas forem iguias
 		{
-			SetGameOver();
-			return;
+			SetGameOver(); //Chama a funcao pra GameOver
+			return; //Retorna e sair
 		}
 
-		if (Tabuleiro.IsFull())
+		if (Tabuleiro.IsFull()) //SE o Tabuleiro.EstaCheio
 		{
-			bIsGameOver = true;
-			GameResult::Draw;
-			return;
-		}
-	}
-
-	bool Play(int Row, int Colum, char Value)
-	{
-		if (Tabuleiro.GetValue(Row, Colum) == ' ')
-		{
-			Tabuleiro.SetValue(Row, Colum, Value);
-			return true;
-		}
-		else
-		{
-			return false;
+			bIsGameOver = true; // a variavel bISGameOver receber verdadeiro
+			Result = GameResult::Draw; //A variavel result receber o GameResult::Draw
+			return; //Retorna e sair
 		}
 	}
 
-	void PrintResult()
+	bool Play(int Row, int Colum, char Value) //Funcao Play que retorna um bool
 	{
-		switch (Result)
+		if (Tabuleiro.GetValue(Row, Colum) == ' ') //SE o valor da casa do tabuleiro estive vazia 
 		{
-			case GameResult::Draw:
-				std::cout << "Empate!" << "\n";
-				break;
+			Tabuleiro.SetValue(Row, Colum, Value); //Coloque um Valor naquela casa
+			return true; //Retorna um verdadeiro
+		}
+		else //SENAO
+		{
+			return false; //Retorna um Falso
+		}
+	}
 
-			case GameResult::Player1:
-				std::cout << Player1->GetName() << " Ganhou!" << "\n";
-				break;
+	void PrintResult() //Funcao PrintResult que nao retorna nada
+	{
+		switch (Result) //Switch sobre o Result
+		{
+			case GameResult::Draw: //Caso o resultado for Empate
+				std::cout << "Empate!" << "\n"; //Mostre na tela Empate
+				break; //Termina
 
-			case GameResult::Player2:
-				std::cout << Player2->GetName() << " Ganhou!" << "\n";
-				break;
+			case GameResult::Player1: //Caso o resultado for Player1
+				std::cout << Player1->GetName() << " Ganhou!" << "\n"; //Mostra na tela que o Player1 Ganhou
+				break; //Termina
+
+			case GameResult::Player2: //Caso o resultado for Player2
+				std::cout << Player2->GetName() << " Ganhou!" << "\n"; //Mostra na tela que o Player2 Ganhou
+				break; //Termina
 
 			default:
 				break;
 		}
 	}
 
-	void NextMove()
+	void NextMove() //Funcao NextMone que nao retorna nada
 	{
-		int Row, Colum;
+		int Row, Colum; //cria duas variaveis int Linha, Coluna
 
-		if (bIsPlayer1Turn)
+		if (bIsPlayer1Turn) //SE for a vez do jogado1(bISPlayer1Turn)
 		{
-			Player1->MakeMove(&Tabuleiro, Row, Colum);
+			Player1->MakeMove(&Tabuleiro, Row, Colum); //Chama a funcao pra o Player1 monta a jogada
 		}
-		else
+		else //SENAO
 		{
-			Player2->MakeMove(&Tabuleiro, Row, Colum);
+			Player2->MakeMove(&Tabuleiro, Row, Colum); //Chama a funcao pra o Jogador2 monta sua jogada
 		}
 
-		bool bIsMoveValid = Play(Row, Colum, bIsPlayer1Turn ? 'X' : 'O');
+		bool bIsMoveValid = Play(Row, Colum, bIsPlayer1Turn ? 'X' : 'O'); // variavel bool(bISMoveValid) que receber Play(o seu return)
 
-		if (bIsMoveValid)
+		if (bIsMoveValid) //SE o movimento foi valido(bISMoveValid)
 		{
-			CheckGameOver();
+			CheckGameOver(); //Chama a funcao pra check o game over, CheckGameOver
 
-			bIsPlayer1Turn = !bIsPlayer1Turn;
+			bIsPlayer1Turn = !bIsPlayer1Turn; //Inverto o valor de bIsPlayer1Turn(Vez do jogado 1)
 		}
 
 	}
 
-	APlayer* Player1;
-	APlayer* Player2;
-	ABoard Tabuleiro;
-	bool bIsGameOver = false;
-	bool bIsPlayer1Turn = true;
-	GameResult Result = GameResult::NotOver;
+	APlayer* Player1; //Cria Objeto Ponteiro do tipo APlayer chamado Player1
+	APlayer* Player2; //Cria Objeto Ponteiro do tipo APlayer chamado Player2
+	ABoard Tabuleiro; //Cria um Objeto do tipo ABoard chamado Tabuleiro 
+	bool bIsGameOver = false; //Criar variavel bool bIsGameOver(se teve game over) receber falso
+	bool bIsPlayer1Turn = true; //Criar variavel bool bIsPlayer1Turn(vez do jogador1) receber verdadeiro
+	GameResult Result = GameResult::NotOver; //Criar Variavel do Tipo GameResult chamada de Result e Receber o valor de NotOver
 
 };
 
@@ -339,17 +339,19 @@ public: //Secao Publica da Classe
 int main()
 {
 	
-	AGame Game;
+	AGame Game; //Criar um Objet do tipo AGame chamado Game
 
-	while (!Game.bIsGameOver)
+	while (!Game.bIsGameOver) //ENQUANTO O jogo GameOver for falso
 	{
-		Game.Tabuleiro.Print();
+		Game.Tabuleiro.Print(); // Chama o Print do tabuleiro pelo Game, Para mostra na tela o mesmo
 
-		Game.NextMove();
+		Game.NextMove(); //Chama a funcao NextMove do Game
+
+		system("cls"); //Funcao pra limpa a tela
 	}
 
-	Game.Tabuleiro.Print();
-	Game.PrintResult();
+	Game.Tabuleiro.Print(); // Chama o Print do tabuleiro pelo Game, Para mostra na tela o mesmo
+	Game.PrintResult(); // Mostra o resultado na tela
 
 	return 0;
 }
